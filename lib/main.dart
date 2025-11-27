@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -319,6 +320,18 @@ class _LoginOrAppState extends State<LoginOrApp> {
 
   @override
   Widget build(BuildContext context) {
+    // En web, omitir login y ir directo a productos
+    if (kIsWeb) {
+      return ProductsPage(
+        currentUser: {
+          'email': 'web_user@esteline.com',
+          'name': 'Web User',
+          'id': 'web_user',
+        },
+        onSignOut: _signOut,
+      );
+    }
+
     if (currentUser == null) {
       return LoginScreen(isLoading: isLoading, onLogin: _loginWithEmail);
     } else {

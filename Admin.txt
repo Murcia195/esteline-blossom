@@ -1,0 +1,8 @@
+admin@tienda.com
+admin123
+
+cd flutter_app
+flutter pub get
+flutter run -d chrome
+
+Cambia el simbolo de dolar a L de lempiras en los precios de la pagina, las imagenes que estan en sql no se miran

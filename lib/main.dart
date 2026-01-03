@@ -46,6 +46,50 @@ final List<String> automaticComments = [
   'Recomiendo ampliamente esta tienda! Top tier! 🏆',
 ];
 
+// Mapa de emojis para productos (mientras se cargan imágenes a Supabase)
+final Map<String, String> productEmojiMap = {
+  'Sombras de ojos': '👁️',
+  'Labial matte': '👄',
+  'Brillo labial': '✨',
+  'Base': '🎨',
+  'Polvo': '💫',
+  'Rubor': '🌸',
+  'Delineador': '✏️',
+  'Máscar': '👁️',
+  'Serum': '💧',
+  'Tónico': '💧',
+  'Desmaquillante': '🧴',
+  'Jabon': '🧼',
+  'Bloqueador': '☀️',
+  'Hidratante': '🧴',
+};
+
+// Función helper para obtener emoji del producto
+String getProductEmoji(String productName) {
+  for (var entry in productEmojiMap.entries) {
+    if (productName.toLowerCase().contains(entry.key.toLowerCase())) {
+      return entry.value;
+    }
+  }
+  return '💄'; // Emoji por defecto (lápiz labial)
+}
+
+// Mapa de iconos a emojis para web
+final Map<String, String> iconEmojiMap = {
+  'home': '🏠',
+  'favorite': '❤️',
+  'favorite_outline': '🤍',
+  'star': '⭐',
+  'shopping_cart': '🛒',
+  'shopping_bag': '🛍️',
+  'add': '➕',
+  'remove': '➖',
+  'close': '❌',
+  'check': '✅',
+  'search': '🔍',
+  'menu': '☰',
+};
+
 // Función helper para obtener URL de imagen desde Supabase Storage
 String getSupabaseImageUrl(String fileName) {
   if (fileName.isEmpty) return '';
@@ -1204,274 +1248,127 @@ class _ProductsPageState extends State<ProductsPage>
       barrierDismissible: true,
       builder: (context) => Dialog(
         backgroundColor: Colors.transparent,
-        insetPadding: const EdgeInsets.all(20),
-        child: TweenAnimationBuilder<double>(
-          tween: Tween(begin: 0, end: 1),
-          duration: const Duration(milliseconds: 500),
-          builder: (context, value, child) {
-            return Transform.scale(
-              scale: value,
-              child: Opacity(
-                opacity: value,
-                child: Container(
-                  constraints: const BoxConstraints(maxWidth: 400),
+        insetPadding: const EdgeInsets.all(30),
+        child: ScaleTransition(
+          scale: Tween<double>(begin: 0.0, end: 1.0).animate(
+            CurvedAnimation(
+              parent: ModalRoute.of(context)?.animation ?? AlwaysStoppedAnimation(1.0),
+              curve: Curves.easeOutBack,
+            ),
+          ),
+          child: Container(
+            width: 300,
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.5,
+            ),
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [cardBg, cardBg.withOpacity(0.95)],
+              ),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: primaryGold, width: 1.5),
+              boxShadow: [
+                BoxShadow(
+                  color: primaryGold.withOpacity(0.4),
+                  blurRadius: 30,
+                  spreadRadius: 3,
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Icono de check
+                Container(
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [cardBg, cardBg.withOpacity(0.95)],
-                    ),
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(color: primaryGold, width: 1.5),
-                    boxShadow: [
-                      BoxShadow(
-                        color: primaryGold.withOpacity(0.4),
-                        blurRadius: 40,
-                        spreadRadius: 5,
-                      ),
-                    ],
+                    color: primaryGold.withOpacity(0.2),
+                    shape: BoxShape.circle,
+                    border: Border.all(color: primaryGold, width: 2),
                   ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // Header con animación
-                        Container(
-                          padding: const EdgeInsets.all(24),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                primaryGold.withOpacity(0.15),
-                                accentPink.withOpacity(0.1),
-                              ],
-                            ),
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(24),
-                            ),
-                          ),
-                          child: Column(
-                            children: [
-                              TweenAnimationBuilder<double>(
-                                tween: Tween(begin: 0, end: 1),
-                                duration: const Duration(milliseconds: 800),
-                                builder: (context, animValue, child) {
-                                  return Transform.rotate(
-                                    angle: animValue * 6.28,
-                                    child: Container(
-                                      padding: const EdgeInsets.all(14),
-                                      decoration: BoxDecoration(
-                                        color: primaryGold.withOpacity(0.2),
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: primaryGold,
-                                          width: 2,
-                                        ),
-                                      ),
-                                      child: const Icon(
-                                        Icons.check_circle,
-                                        color: primaryGold,
-                                        size: 40,
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                              const SizedBox(height: 14),
-                              const Text(
-                                '¡AGREGADO CON ÉXITO!',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800,
-                                  color: primaryGold,
-                                  letterSpacing: 1,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(height: 6),
-                              Text(
-                                product['name'] ?? '',
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  color: lightGray,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
-                          ),
-                        ),
-                        // Comentarios
-                        Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Clientes felices 💬',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                  color: mediumGray,
-                                  letterSpacing: 0.5,
-                                ),
-                              ),
-                              const SizedBox(height: 12),
-                              ...(automaticComments..shuffle())
-                                  .take(2)
-                                  .map(
-                                    (comment) => Padding(
-                                      padding: const EdgeInsets.only(
-                                        bottom: 10,
-                                      ),
-                                      child: Container(
-                                        padding: const EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                          color: primaryGold.withOpacity(0.08),
-                                          borderRadius: BorderRadius.circular(
-                                            12,
-                                          ),
-                                          border: Border.all(
-                                            color: primaryGold.withOpacity(0.2),
-                                            width: 0.5,
-                                          ),
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                comment,
-                                                style: TextStyle(
-                                                  fontSize: 11,
-                                                  color: mediumGray,
-                                                  height: 1.4,
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 8),
-                                            Row(
-                                              children: List.generate(
-                                                5,
-                                                (i) => const Padding(
-                                                  padding: EdgeInsets.only(
-                                                    right: 1,
-                                                  ),
-                                                  child: Icon(
-                                                    Icons.star,
-                                                    size: 10,
-                                                    color: primaryGold,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                            ],
-                          ),
-                        ),
-                        // Botones
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                          child: Column(
-                            children: [
-                              // Botón de Favoritos
-                              SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton.icon(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: accentPink.withOpacity(
-                                      0.2,
-                                    ),
-                                    foregroundColor: accentPink,
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 10,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      side: const BorderSide(
-                                        color: accentPink,
-                                        width: 1,
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    final productId =
-                                        product['id']?.toString() ?? '';
-                                    if (productId.isNotEmpty &&
-                                        !favoriteIds.contains(productId)) {
-                                      setState(
-                                        () => favoriteIds.add(productId),
-                                      );
-                                      ScaffoldMessenger.of(
-                                        context,
-                                      ).showSnackBar(
-                                        const SnackBar(
-                                          content: Text(
-                                            '¡Agregado a favoritos! ❤️',
-                                          ),
-                                          duration: Duration(milliseconds: 800),
-                                          backgroundColor: accentPink,
-                                        ),
-                                      );
-                                    }
-                                  },
-                                  icon: const Icon(
-                                    Icons.favorite_outline,
-                                    size: 18,
-                                  ),
-                                  label: const Text(
-                                    'Agregar a Favoritos',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              // Botón Continuar Comprando
-                              SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: primaryGold,
-                                    foregroundColor: darkBg,
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 12,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
-                                  onPressed: () => Navigator.pop(context),
-                                  child: const Text(
-                                    'Continuar comprando',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 13,
-                                      letterSpacing: 0.5,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                  child: const Icon(
+                    Icons.check_circle,
+                    color: primaryGold,
+                    size: 28,
                   ),
                 ),
-              ),
-            );
-          },
+                const SizedBox(height: 12),
+                
+                // Título
+                const Text(
+                  '¡Agregado!',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w800,
+                    color: primaryGold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 6),
+                
+                // Nombre del producto
+                Text(
+                  product['name'] ?? 'Producto',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: lightGray,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 16),
+                
+                // Botones
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: accentPink.withOpacity(0.2),
+                          foregroundColor: accentPink,
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            side: const BorderSide(color: accentPink),
+                          ),
+                        ),
+                        onPressed: () {
+                          final productId = product['id']?.toString() ?? '';
+                          if (productId.isNotEmpty) {
+                            setState(() => favoriteIds.add(productId));
+                          }
+                          Navigator.pop(context);
+                        },
+                        child: const Icon(Icons.favorite_outline, size: 14),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: primaryGold,
+                          foregroundColor: darkBg,
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text(
+                          'OK',
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -3740,6 +3637,17 @@ class _ProductsPageState extends State<ProductsPage>
     required bool isActive,
     required VoidCallback onTap,
   }) {
+    // Mapa de IconData a emoji
+    final iconToEmoji = {
+      Icons.home: '🏠',
+      Icons.favorite_outline: '🤍',
+      Icons.favorite: '❤️',
+      Icons.shopping_bag: '🛍️',
+      Icons.shopping_cart: '🛒',
+    };
+    
+    final emoji = iconToEmoji[icon];
+    
     return Expanded(
       child: Material(
         color: Colors.transparent,
@@ -3749,7 +3657,15 @@ class _ProductsPageState extends State<ProductsPage>
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, color: isActive ? primaryGold : mediumGray, size: 22),
+              emoji != null
+                ? Text(
+                    emoji,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: isActive ? primaryGold : mediumGray,
+                    ),
+                  )
+                : Icon(icon, color: isActive ? primaryGold : mediumGray, size: 22),
               const SizedBox(height: 4),
               Text(
                 label,
@@ -4075,40 +3991,12 @@ class _ProductCardState extends State<ProductCard>
                           child: Container(
                             color: cardBg,
                             width: double.infinity,
-                            child: imageUrl.isNotEmpty
-                                ? Image.network(
-                                    getSupabaseImageUrl(imageUrl),
-                                    fit: BoxFit.cover,
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                          if (loadingProgress == null)
-                                            return child;
-                                          return Center(
-                                            child: CircularProgressIndicator(
-                                              value:
-                                                  loadingProgress
-                                                          .expectedTotalBytes !=
-                                                      null
-                                                  ? loadingProgress
-                                                            .cumulativeBytesLoaded /
-                                                        loadingProgress
-                                                            .expectedTotalBytes!
-                                                  : null,
-                                              color: primaryGold,
-                                              strokeWidth: 2,
-                                            ),
-                                          );
-                                        },
-                                    errorBuilder: (context, error, st) =>
-                                        const Icon(
-                                          Icons.image,
-                                          color: primaryGold,
-                                        ),
-                                  )
-                                : const Icon(
-                                    Icons.image_not_supported,
-                                    color: primaryGold,
-                                  ),
+                            child: Center(
+                              child: Text(
+                                getProductEmoji(productName),
+                                style: const TextStyle(fontSize: 64),
+                              ),
+                            ),
                           ),
                         ),
                         // Rating badge
@@ -4131,10 +4019,9 @@ class _ProductCardState extends State<ProductCard>
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                const Icon(
-                                  Icons.star,
-                                  size: 10,
-                                  color: primaryGold,
+                                const Text(
+                                  '⭐',
+                                  style: TextStyle(fontSize: 10),
                                 ),
                                 const SizedBox(width: 2),
                                 Text(
@@ -4177,12 +4064,9 @@ class _ProductCardState extends State<ProductCard>
                                   ),
                                 ],
                               ),
-                              child: Icon(
-                                isFavorite
-                                    ? Icons.favorite
-                                    : Icons.favorite_outline,
-                                size: 14,
-                                color: isFavorite ? accentPink : primaryGold,
+                              child: Text(
+                                isFavorite ? '❤️' : '🤍',
+                                style: const TextStyle(fontSize: 12),
                               ),
                             ),
                           ),
@@ -4319,23 +4203,12 @@ class _ProductCardState extends State<ProductCard>
                             child: Stack(
                               children: [
                                 Center(
-                                  child: imageUrl.isNotEmpty
-                                      ? InteractiveViewer(
-                                          boundaryMargin: const EdgeInsets.all(
-                                            20,
-                                          ),
-                                          minScale: 1.0,
-                                          maxScale: 4.0,
-                                          child: Image.network(
-                                            getSupabaseImageUrl(imageUrl),
-                                            fit: BoxFit.contain,
-                                          ),
-                                        )
-                                      : const Icon(
-                                          Icons.image,
-                                          size: 100,
-                                          color: primaryGold,
-                                        ),
+                                  child: Center(
+                                      child: Text(
+                                        getProductEmoji(productName),
+                                        style: const TextStyle(fontSize: 120),
+                                      ),
+                                    ),
                                 ),
                                 Positioned(
                                   top: 16,
@@ -4365,22 +4238,16 @@ class _ProductCardState extends State<ProductCard>
                         borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(20),
                         ),
-                        child: imageUrl.isNotEmpty
-                            ? Image.network(
-                                getSupabaseImageUrl(imageUrl),
-                                height: 250,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                              )
-                            : Container(
-                                height: 250,
-                                color: cardBg,
-                                child: const Icon(
-                                  Icons.image,
-                                  size: 60,
-                                  color: primaryGold,
-                                ),
+                        child: Container(
+                            height: 250,
+                            color: cardBg,
+                            child: Center(
+                              child: Text(
+                                getProductEmoji(product['name'] ?? 'Producto'),
+                                style: const TextStyle(fontSize: 100),
                               ),
+                            ),
+                          ),
                       ),
                     ),
                     // Icono de zoom

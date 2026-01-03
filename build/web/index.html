@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esteline Blossom - Descarga Nuestra App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gold: #D4AF37;
+            --accent-pink: #E88B9A;
+            --dark-bg: #0A0E27;
+            --medium-gray: #8B8B8B;
+            --light-gray: #F5F5F5;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1f3a 100%);
+            color: var(--light-gray);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 20px 0;
+            border-bottom: 2px solid var(--primary-gold);
+            position: sticky;
+            top: 0;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-gold), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1px;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 60px;
+            padding: 80px 0 100px;
+            min-height: 100vh;
+        }
+
+        .hero-content h1 {
+            font-size: 56px;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary-gold), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            color: var(--medium-gray);
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, var(--primary-gold), var(--accent-pink));
+            color: var(--dark-bg);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.5);
+        }
+
+        .hero-image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 500px;
+        }
+
+        .logo-circle {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(212, 175, 55, 0.2), transparent);
+            border: 3px solid var(--primary-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 120px;
+            animation: float 3s ease-in-out infinite;
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.6), 0 0 60px rgba(232, 139, 154, 0.4);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Download Section */
+        .download-section {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 44px;
+            font-weight: 900;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, var(--primary-gold), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .download-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(232, 139, 154, 0.08));
+            border: 2px solid var(--primary-gold);
+            border-radius: 16px;
+            padding: 40px 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .download-card:hover::before {
+            left: 100%;
+        }
+
+        .download-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
+            border-color: var(--accent-pink);
+        }
+
+        .device-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .download-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--light-gray);
+        }
+
+        .download-card p {
+            font-size: 14px;
+            color: var(--medium-gray);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background: linear-gradient(135deg, var(--primary-gold), var(--accent-pink));
+            color: var(--dark-bg);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), rgba(232, 139, 154, 0.05));
+            border-radius: 20px;
+            margin: 80px 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .feature-item {
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .feature-item h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--primary-gold);
+        }
+
+        .feature-item p {
+            font-size: 14px;
+            color: var(--medium-gray);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 2px solid var(--primary-gold);
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        .footer-content p {
+            font-size: 14px;
+            color: var(--medium-gray);
+            margin-bottom: 10px;
+        }
+
+        .social-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .social-links a {
+            color: var(--primary-gold);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-pink);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 40px 0 60px;
+                min-height: auto;
+            }
+
+            .hero-content h1 {
+                font-size: 36px;
+            }
+
+            .hero-content p {
+                font-size: 16px;
+            }
+
+            .logo-circle {
+                width: 200px;
+                height: 200px;
+                font-size: 80px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .download-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content {
+            animation: slideInUp 0.8s ease 0.2s both;
+        }
+
+        .download-card {
+            animation: slideInUp 0.8s ease forwards;
+        }
+
+        .download-card:nth-child(1) { animation-delay: 0.3s; }
+        .download-card:nth-child(2) { animation-delay: 0.4s; }
+        .download-card:nth-child(3) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">✨ ESTELINE BLOSSOM ✨</div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container" style="display: contents;">
+                <div class="hero-content">
+                    <h1>Belleza Premium al Alcance de tu Mano</h1>
+                    <p>Descubre nuestra colección exclusiva de maquillaje de lujo. Productos cuidadosamente seleccionados para realzar tu belleza natural con estilo y elegancia.</p>
+                    <button class="cta-button" onclick="scrollToDownload()">Descargar Ahora</button>
+                </div>
+                <div class="hero-image">
+                    <div class="logo-circle">💎</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="download-section">
+            <div class="container" id="download-target">
+                <h2 class="section-title">Elige tu Plataforma</h2>
+                <p style="color: var(--medium-gray); font-size: 18px; margin-bottom: 40px;">Descarga Esteline Blossom en tu dispositivo favorito</p>
+                
+                <div class="download-grid">
+                    <!-- Android -->
+                    <div class="download-card">
+                        <div class="device-icon">📱</div>
+                        <h3>Android</h3>
+                        <p>Descarga la app para tu teléfono o tablet Android</p>
+                        <button class="download-btn" onclick="downloadApp('android')">Descargar APK</button>
+                        <p style="font-size: 11px; margin-top: 10px; color: var(--accent-pink);">O contacta por:</p>
+                        <button class="download-btn" style="background: #25D366; padding: 8px 16px; font-size: 12px; margin-top: 5px;" onclick="contactWhatsApp('Android')">WhatsApp</button>
+                        <p style="font-size: 12px; margin-top: 10px; color: var(--medium-gray);">Compatible con Android 5.0+</p>
+                    </div>
+
+                    <!-- iOS -->
+                    <div class="download-card">
+                        <div class="device-icon">🍎</div>
+                        <h3>iOS</h3>
+                        <p>Descarga la app para iPhone y iPad</p>
+                        <button class="download-btn" style="background: #888888; cursor: not-allowed;" disabled>Próximamente</button>
+                        <p style="font-size: 11px; margin-top: 10px; color: var(--accent-pink);">Contacta por WhatsApp:</p>
+                        <button class="download-btn" style="background: #25D366; padding: 8px 16px; font-size: 12px; margin-top: 5px;" onclick="contactWhatsApp('iOS')">📱 WhatsApp</button>
+                        <p style="font-size: 12px; margin-top: 10px; color: var(--medium-gray);">Te avisaremos cuando esté disponible</p>
+                    </div>
+
+                    <!-- Windows -->
+                    <div class="download-card">
+                        <div class="device-icon">🖥️</div>
+                        <h3>Windows</h3>
+                        <p>Descarga la app para tu computadora Windows</p>
+                        <button class="download-btn" onclick="downloadApp('windows')">Descargar para PC</button>
+                        <p style="font-size: 11px; margin-top: 10px; color: var(--accent-pink);">O contacta por:</p>
+                        <button class="download-btn" style="background: #25D366; padding: 8px 16px; font-size: 12px; margin-top: 5px;" onclick="contactWhatsApp('Windows')">WhatsApp</button>
+                        <p style="font-size: 12px; margin-top: 10px; color: var(--medium-gray);">Compatible con Windows 10+</p>
+                    </div>
+
+                    <!-- Web -->
+                    <div class="download-card">
+                        <div class="device-icon">🌐</div>
+                        <h3>Web</h3>
+                        <p>Accede desde cualquier navegador</p>
+                        <a href="https://esteline-blossom-5040.netlify.app" class="download-btn">Abrir en Navegador</a>
+                        <p style="font-size: 12px; margin-top: 15px; color: var(--medium-gray);">✅ Disponible en cualquier dispositivo</p>
+                    </div>
+
+                    <!-- Mac -->
+                    <div class="download-card">
+                        <div class="device-icon">🍏</div>
+                        <h3>macOS</h3>
+                        <p>Descarga la app para tu Mac</p>
+                        <button class="download-btn" onclick="downloadApp('macos')">Descargar para Mac</button>
+                        <p style="font-size: 11px; margin-top: 10px; color: var(--accent-pink);">O contacta por:</p>
+                        <button class="download-btn" style="background: #25D366; padding: 8px 16px; font-size: 12px; margin-top: 5px;" onclick="contactWhatsApp('Mac')">WhatsApp</button>
+                        <p style="font-size: 12px; margin-top: 10px; color: var(--medium-gray);">Compatible con macOS 10.13+</p>
+                    </div>
+
+                    <!-- Linux -->
+                    <div class="download-card">
+                        <div class="device-icon">🐧</div>
+                        <h3>Linux</h3>
+                        <p>Descarga la app para Linux</p>
+                        <button class="download-btn" onclick="downloadApp('linux')">Descargar AppImage</button>
+                        <p style="font-size: 11px; margin-top: 10px; color: var(--accent-pink);">O contacta por:</p>
+                        <button class="download-btn" style="background: #25D366; padding: 8px 16px; font-size: 12px; margin-top: 5px;" onclick="contactWhatsApp('Linux')">WhatsApp</button>
+                        <p style="font-size: 12px; margin-top: 10px; color: var(--medium-gray);">Compatible con distribuciones principales</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section">
+            <div class="container">
+                <h2 class="section-title">Por Qué Descargar Esteline Blossom</h2>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">🎁</div>
+                        <h4>Ofertas Exclusivas</h4>
+                        <p>Acceso a promociones y descuentos especiales solo para usuarios de la app</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">⚡</div>
+                        <h4>Compra Rápida</h4>
+                        <p>Interfaz intuitiva y proceso de pago seguro en segundos</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">💎</div>
+                        <h4>Productos Premium</h4>
+                        <p>Colección exclusiva de marcas de lujo cuidadosamente seleccionadas</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🔔</div>
+                        <h4>Notificaciones</h4>
+                        <p>Mantente informado sobre nuevos productos y ofertas especiales</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📦</div>
+                        <h4>Historial de Compras</h4>
+                        <p>Acceso fácil a tu historial y reordenamientos rápidos</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">💬</div>
+                        <h4>Soporte 24/7</h4>
+                        <p>Contacto directo por WhatsApp para dudas y consultas</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Esteline Blossom. Todos los derechos reservados.</p>
+                <p>Belleza Premium | Productos Cuidadosamente Seleccionados</p>
+                <div class="social-links">
+                    <a href="https://instagram.com/esteline" target="_blank">Instagram</a>
+                    <a href="https://whatsapp.com" target="_blank">WhatsApp</a>
+                    <a href="mailto:info@esteline.com">Email</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function scrollToDownload() {
+            document.getElementById('download-target').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function contactWhatsApp(platform) {
+            // Tu número de WhatsApp (Honduras)
+            const phoneNumber = '50487740593';  // 504 + 87740593
+            const message = `Hola! Quiero descargar Esteline Blossom para ${platform}. ¿Me ayudas?`;
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function downloadApp(platform) {
+            // Descargas disponibles
+            if (platform === 'windows') {
+                // Windows: descarga instalador desde Google Drive
+                const googleDriveUrl = 'https://drive.google.com/uc?export=download&id=1ePktFcBHDSBLfsT9_EtG4AKqZ6IjMH8w';
+                window.location.href = googleDriveUrl;
+            } else if (platform === 'android') {
+                // Android: descarga APK desde Google Drive
+                const apkUrl = 'https://drive.google.com/uc?export=download&id=1rfpDGZ7a3I9Qu_-Dr51KkVWYKRuGTlPd';
+                window.location.href = apkUrl;
+            } else if (platform === 'web') {
+                // Web: acceso directo a la app web
+                window.location.href = 'https://esteline-blossom-5040.netlify.app';
+            } else {
+                // Todas las demás plataformas (iOS, macOS, Linux) → contactar por WhatsApp
+                alert(`📱 Para descargar en ${platform}, contacta por WhatsApp y te enviamos información.`);
+                contactWhatsApp(platform);
+            }
+        }
+
+        // Add scroll animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'slideInUp 0.8s ease forwards';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.download-card, .feature-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Detectar dispositivo automáticamente
+        window.addEventListener('load', function() {
+            const userAgent = navigator.userAgent;
+            if (/Android/i.test(userAgent)) {
+                console.log('Dispositivo Android detectado');
+            } else if (/iPhone|iPad|iPod/i.test(userAgent)) {
+                console.log('Dispositivo iOS detectado');
+            } else if (/Windows/i.test(userAgent)) {
+                console.log('Windows detectado');
+            }
+        });
+    </script>
+</body>
+</html>
